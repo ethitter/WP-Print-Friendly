@@ -4,7 +4,7 @@ Plugin Name: WP Print Friendly
 Plugin URI: http://www.thinkoomph.com/plugins-modules/wp-print-friendly/
 Description: Extends WordPress' template system to support printer-friendly templates. Works with permalink structures to support nice URLs.
 Author: Erick Hitter (Oomph, Inc.)
-Version: 0.5
+Version: 0.5.1
 Author URI: http://www.thinkoomph.com/
 */
 
@@ -108,11 +108,28 @@ class wp_print_friendly {
 
 		//Extra rules needed if verbose page rules are requested
 		if ( $wp_rewrite->use_verbose_page_rules ) {
+			//Build regex
 			$regex = substr( str_replace( $wp_rewrite->rewritecode, $wp_rewrite->rewritereplace, $wp_rewrite->permalink_structure ), 1 );
 			$regex = trailingslashit( $regex );
 			$regex .= $this->query_var . '(/([0-9]*))?/?$';
 
-			add_rewrite_rule( $regex, $wp_rewrite->index . '?category_name=$matches[1]&name=$matches[2]&' . $this->query_var . '=$matches[4]', 'top' );
+			//Build corresponding query string
+			$query = substr( str_replace( $wp_rewrite->rewritecode, $wp_rewrite->queryreplace, $wp_rewrite->permalink_structure ), 1 );
+			$query = explode( '/', $query );
+			$query = array_filter( $query );
+
+			$i = 1;
+			foreach ( $query as $key => $qv ) {
+				$query[ $key ] .= '$matches[' . $i . ']';
+				$i++;
+			}
+
+			$query[] = $this->query_var . '=$matches[' . ( $i + 1 ) . ']';
+
+			$query = implode( '&', $query );
+
+			//Add rule
+			add_rewrite_rule( $regex, $wp_rewrite->index . '?' . $query, 'top' );
 		}
 	}
 
