@@ -150,11 +150,12 @@ class wp_print_friendly {
 	/**
 	 * Determine if print template is being requested.
 	 *
-	 * @uses get_query_var
+	 * @global $wp_query
 	 * @return bool
 	 */
 	public function is_print() {
-		return (bool) get_query_var( $this->query_var );
+		global $wp_query;
+		return is_array( $wp_query->query ) && array_key_exists( $this->query_var, $wp_query->query );
 	}
 
 	/**
