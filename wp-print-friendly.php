@@ -3,7 +3,7 @@
 Plugin Name: WP Print Friendly
 Plugin URI: http://www.thinkoomph.com/plugins-modules/wp-print-friendly/
 Description: Extends WordPress' template system to support printer-friendly templates. Works with permalink structures to support nice URLs.
-Author: Erick Hitter (Oomph, Inc.)
+Author: Erick Hitter & Oomph, Inc.
 Version: 0.5.2
 Author URI: http://www.thinkoomph.com/
 
