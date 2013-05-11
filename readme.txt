@@ -3,8 +3,8 @@ Contributors: ethitter, stevenkword, thinkoomph
 Donate link: http://www.thinkoomph.com/plugins-modules/wp-print-friendly/
 Tags: print, template, printer, printable
 Requires at least: 3.1
-Tested up to: 3.5
-Stable tag: 0.5.3
+Tested up to: 3.6
+Stable tag: 0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,6 +58,15 @@ This plugin is known to conflict with certain plugins, many pertaining to SEO an
 * **WordPress SEO by Yoast:** This plugin's `Permalink` options, particularly *Redirect attachment URL's to parent post URL* and *Redirect ugly URL's to clean permalinks. (Not recommended in many cases!)*, interfere with WP Print Friendly's ability to display print templates. Both must be disabled, and the site's rewrite rules regenerated (by visiting Options > Permalinks and clicking *Save Changes*), for WP Print Friendly to function.
 
 == Changelog ==
+
+= 0.6 =
+* Revert security hotfixes made in 0.5.3 and address the vulnerabilities in the WordPress way.
+* If current user can't read a private post, don't display the print template, allowing the standard theme to handle requests.
+* If a post is password protected and the viewer hasn't provided the right password, display the password form and prevent plugin from exposing any information about the post that WordPress doesn't already.
+* When WordPress determines a request is a 404, don't activate the plugin's templating functionality.
+* Convert the plugin to a singleton.
+* Audit entire plugin for translation readyness.
+* Correct phpdoc.
 
 = 0.5.3 =
 * Creates is_protected() method to determine if the print page should be visible to the current user
@@ -138,6 +147,9 @@ This plugin is known to conflict with certain plugins, many pertaining to SEO an
 * Initial version.
 
 == Upgrade Notice ==
+
+= 0.6 =
+Recommended for all users as this release addresses security vulnerabilities related to privately-published and password-protected posts.
 
 = 0.5.2 =
 Resolves a problem where requests for print templates redirect to the article.
