@@ -31,29 +31,41 @@ class wp_print_friendly {
 	/**
 	 * Class variables
 	 */
-	var $query_var = 'print';
+	private $query_var = 'print';
 
-	var $ns = 'wp_print_friendly';
+	private $ns = 'wp_print_friendly';
 
-	var $settings_key = 'wpf';
-	var $settings_defaults = array(
-		'auto' => false,
-		'placement' => 'below',
-		'post_types' => array( 'post', 'page' ),
-		'print_text' => 'Print this entry',
+	private $settings_key = 'wpf';
+	private $settings_defaults = array(
+		'auto'            => false,
+		'placement'       => 'below',
+		'post_types'      => array( 'post', 'page' ),
+		'print_text'      => 'Print this entry',
 		'print_text_page' => 'Print this page',
-		'css_class' => 'print_link',
-		'link_target' => 'same',
-		'endnotes' => true,
-		'endnotes_label' => 'Endnotes:'
+		'css_class'       => 'print_link',
+		'link_target'     => 'same',
+		'endnotes'        => true,
+		'endnotes_label'  => 'Endnotes:',
 	);
 
-	var $notice_key = 'wpf_admin_notice_dismissed';
+	private $notice_key = 'wpf_admin_notice_dismissed';
 
 	/**
 	 * Silence is golden!
 	 */
 	private function __construct() {}
+
+	/**
+	 * Since class variables are private as of v0.6, expose them for external reference
+	 *
+	 * @return mixed
+	 */
+	public function __get( $name ) {
+		if ( property_exists( $this, $name ) )
+			return $this->$name;
+		else
+			return null;
+	}
 
 	/**
 	 * Implement singleton
