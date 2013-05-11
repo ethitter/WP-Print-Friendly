@@ -3,8 +3,8 @@
 Plugin Name: WP Print Friendly
 Plugin URI: http://www.thinkoomph.com/plugins-modules/wp-print-friendly/
 Description: Extends WordPress' template system to support printer-friendly templates. Works with permalink structures to support nice URLs.
-Author: Erick Hitter & Oomph, Inc.
-Version: 0.5.2
+Author: Erick Hitter, Steven K Word & Oomph, Inc.
+Version: 0.5.3
 Author URI: http://www.thinkoomph.com/
 
 This program is free software; you can redistribute it and/or modify
@@ -80,6 +80,7 @@ class wp_print_friendly {
 		add_action( 'admin_menu', array( $this, 'action_admin_menu' ) );
 		add_filter( 'request', array( $this, 'filter_request' ) );
 		add_action( 'pre_get_posts', array( $this, 'action_pre_get_posts' ) );
+		add_action( 'wp', array( $this, 'action_wp' ) );
 		add_filter( 'template_include', array( $this, 'filter_template_include' ) );
 		add_filter( 'redirect_canonical', array( $this, 'filter_redirect_canonical' ) );
 		add_filter( 'body_class', array( $this, 'filter_body_class' ) );
@@ -159,6 +160,23 @@ class wp_print_friendly {
 
 		if ( isset( $_GET[ $this->notice_key ] ) )
 			update_option( $this->notice_key, 1 );
+	}
+
+	/**
+	 * Determine if the print page should be visible to the current user
+	 *
+	 * @uses current_user_can, post_password_required
+	 * @global $wp_query, $post
+	 * @return bool
+	 */
+	public function is_protected() {
+		global $post;
+
+		// If the global $post object is not set OR BOTH the current user is NOT an admin AND the post is private
+		$private = ( ! isset( $post ) || ( ! current_user_can( 'read_private_posts' ) && 'private' == $post->post_status ) ) ? true : false;
+
+		// If the password is required OR if the current user does not have the capability to view private posts
+		return post_password_required() || true === $private;
 	}
 
 	/**
@@ -274,14 +292,33 @@ class wp_print_friendly {
 	}
 
 	/**
+	 * Throw a 404 if the print page should not be visible to the user
+	 *
+	 * @action wp
+	 * @global $wp_query
+	 * @uses $this::is_print, $this::is_protected
+	 * @return null
+	 */
+	function action_wp() {
+		global $wp_query;
+
+		if( $this->is_print() && $this->is_protected() ) {
+			$wp_query->set_404();
+			status_header( 404 );
+			nocache_headers();
+		}
+	}
+
+	/**
 	 * Filter template include to return print template if requested.
 	 *
 	 * @param string $template
 	 * @filter template_include
+	 * @uses this::is_protected
 	 * @return string
 	 */
 	public function filter_template_include( $template ) {
-		if ( $this->is_print() && ( $print_template = $this->template_chooser() ) )
+		if ( $this->is_print() && ! $this->is_protected() && ( $print_template = $this->template_chooser() ) )
 			$template = $print_template[ 'path' ];
 
 		return $template;
@@ -350,7 +387,7 @@ class wp_print_friendly {
 	 * Filter the content if automatic inclusion is selected.
 	 *
 	 * @param string $content
-	 * @uses $this::get_options, $post, $this::print_url, get_query_var, apply_filters
+	 * @uses $this::get_options, $post, $this::print_url, $this::is_protected, get_query_var, apply_filters
 	 * @filter the_content
 	 * @return string
 	 */
@@ -358,6 +395,10 @@ class wp_print_friendly {
 		$options = $this->get_options();
 
 		global $post;
+
+		// Do not display the print_url link if the print page is not be accessible to the user
+		if( $this->is_protected() )
+			return $content;
 
 		if ( is_array( $options ) && array_key_exists( 'auto', $options ) && $options[ 'auto' ] == true && in_array( $post->post_type, $options[ 'post_types' ] ) && ! $this->is_print() ) {
 			extract( $options );
