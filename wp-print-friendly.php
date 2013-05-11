@@ -164,12 +164,15 @@ class wp_print_friendly {
 	/**
 	 * Determine if print template is being requested.
 	 *
+	 * If WordPress determined this request is a 404, do nothing and let the main theme handle things.
+	 *
 	 * @global $wp_query
+	 * @uses is_404()
 	 * @return bool
 	 */
 	public function is_print() {
 		global $wp_query;
-		return is_array( $wp_query->query ) && array_key_exists( $this->query_var, $wp_query->query );
+		return is_array( $wp_query->query ) && array_key_exists( $this->query_var, $wp_query->query ) && ! is_404();
 	}
 
 	/**
