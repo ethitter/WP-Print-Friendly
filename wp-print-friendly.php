@@ -197,40 +197,41 @@ class wp_print_friendly {
 			property_exists( $queried_object, 'taxonomy' ) &&
 			property_exists( $queried_object, 'slug' ) &&
 			( '' !== ( $path = locate_template( array( 'wpf-' . $queried_object->taxonomy . '-' . $queried_object->slug . '.php', 'wpf-' . $queried_object->taxonomy . '.php' ), false ) ) )
-		)
+		) {
 			$template = array(
 				'name' => 'wpf-' . $queried_object->taxonomy,
 				'path' => $path
 			);
-		elseif (
+		} elseif (
 			is_object( $queried_object ) &&
 			property_exists( $queried_object, 'post_type' ) &&
 			property_exists( $queried_object, 'post_name' ) &&
 			( '' !== ( $path = locate_template( array( 'wpf-' . $queried_object->post_type . '-' . $queried_object->post_name . '.php', 'wpf-' . $queried_object->post_type . '.php' ), false ) ) )
-		)
+		) {
 			$template = array(
 				'name' => 'wpf-' . $queried_object->post_type,
 				'path' => $path
 			);
-		elseif (
+		} elseif (
 			is_object( $queried_object ) &&
 			property_exists( $queried_object, 'post_name' ) &&
 			( '' !== ( $path = locate_template( 'wpf-' . $queried_object->post_name . '.php', false ) ) )
-		)
+		) {
 			$template = array(
 				'name' => 'wpf-' . $queried_object->post_name,
 				'path' => $path
 			);
-		elseif ( '' !== ( $path = locate_template( 'wpf.php', false ) ) )
+		} elseif ( '' !== ( $path = locate_template( 'wpf.php', false ) ) ) {
 			$template = array(
 				'name' => 'wpf-default',
 				'path' => $path
 			);
-		elseif ( file_exists( $pluginpath . '/default-template.php' ) )
+		} elseif ( file_exists( $pluginpath . '/default-template.php' ) ) {
 			$template = array(
 				'name' => 'wpf-plugin-default',
 				'path' => $pluginpath . '/default-template.php'
 			);
+		}
 
 		return isset( $template ) ? $template : false;
 	}
