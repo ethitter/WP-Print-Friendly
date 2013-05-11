@@ -167,7 +167,7 @@ class wp_print_friendly {
 	 * If WordPress determined this request is a 404, do nothing and let the main theme handle things.
 	 *
 	 * @global $wp_query
-	 * @uses is_404()
+	 * @uses is_404
 	 * @return bool
 	 */
 	public function is_print() {
