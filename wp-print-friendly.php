@@ -327,12 +327,13 @@ class wp_print_friendly {
 	 * Filter post content to support printing entire post on one page.
 	 *
 	 * @param string $content
+	 * @uses post_password_required
 	 * @uses get_query_var
 	 * @filter the_content
 	 * @return string
 	 */
 	public function filter_the_content( $content ) {
-		if ( $this->is_print() ) {
+		if ( $this->is_print() && ! post_password_required() ) {
 			$print = get_query_var( $this->query_var );
 
 			if ( $print == 'all' || $print == '/all' || empty( $print ) ) {
@@ -402,12 +403,14 @@ class wp_print_friendly {
 	 * Convert links to endnotes if desired.
 	 *
 	 * @param string $content
-	 * @uses $this::is_print, $this::get_options
+	 * @uses this::is_print
+	 * @uses post_password_required
+	 * @uses this::get_options
 	 * @filter the_content
 	 * @return string
 	 */
 	public function filter_the_content_late( $content ) {
-		if ( $this->is_print() ) {
+		if ( $this->is_print() && ! post_password_required() ) {
 			global $post;
 
 			$options = $this->get_options();
@@ -796,11 +799,14 @@ class wp_print_friendly {
 	 * @param string $before
 	 * @param string $separator
 	 * @param string $after
-	 * @uses $this::is_print, get_query_var, get_post_field
+	 * @uses this::is_print
+	 * @uses post_password_required
+	 * @uses get_query_var
+	 * @uses get_post_field
 	 * @return string or false
 	 */
 	public function page_numbers( $post_id = false, $before = 'Page ', $separator = ' of ', $after = '' ) {
-		if ( ! $this->is_print() )
+		if ( ! $this->is_print() || post_password_required() )
 			return false;
 
 		//Don't display on views that include all pages of a post
