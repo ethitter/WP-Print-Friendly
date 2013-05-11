@@ -6,6 +6,7 @@ Description: Extends WordPress' template system to support printer-friendly temp
 Author: Erick Hitter, Steven K Word & Oomph, Inc.
 Version: 0.6
 Author URI: http://www.thinkoomph.com/
+Text Domain: wp_print_friendly
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
