@@ -36,17 +36,7 @@ class wp_print_friendly {
 	private $ns = 'wp_print_friendly';
 
 	private $settings_key = 'wpf';
-	private $settings_defaults = array(
-		'auto'            => false,
-		'placement'       => 'below',
-		'post_types'      => array( 'post', 'page' ),
-		'print_text'      => 'Print this entry',
-		'print_text_page' => 'Print this page',
-		'css_class'       => 'print_link',
-		'link_target'     => 'same',
-		'endnotes'        => true,
-		'endnotes_label'  => 'Endnotes:',
-	);
+	private $settings_defaults = null; // populated in this::action_plugins_loaded to facilitate translation.
 
 	private $notice_key = 'wpf_admin_notice_dismissed';
 
@@ -113,6 +103,7 @@ class wp_print_friendly {
 	/**
 	 * Register actions and filters.
 	 *
+	 * @uses __
 	 * @uses add_action
 	 * @uses add_filter
 	 * @uses get_option
@@ -120,6 +111,20 @@ class wp_print_friendly {
 	 * @return null
 	 */
 	public function action_plugins_loaded() {
+		// Populate default settings, with translation support
+		$this->settings_defaults = array(
+			'auto'            => false,
+			'placement'       => 'below',
+			'post_types'      => array( 'post', 'page' ),
+			'print_text'      => __( 'Print this entry', 'wp_print_friendly' ),
+			'print_text_page' => __( 'Print this page', 'wp_print_friendly' ),
+			'css_class'       => 'print_link',
+			'link_target'     => 'same',
+			'endnotes'        => true,
+			'endnotes_label'  => __( 'Endnotes:', 'wp_print_friendly' ),
+		);
+
+		// Register plugin's remaining actions and filters
 		add_action( 'init', array( $this, 'action_init' ), 20 );
 		add_action( 'admin_init', array( $this, 'action_admin_init' ) );
 		add_action( 'admin_menu', array( $this, 'action_admin_menu' ) );
