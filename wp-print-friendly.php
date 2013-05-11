@@ -80,7 +80,6 @@ class wp_print_friendly {
 		add_action( 'admin_menu', array( $this, 'action_admin_menu' ) );
 		add_filter( 'request', array( $this, 'filter_request' ) );
 		add_action( 'pre_get_posts', array( $this, 'action_pre_get_posts' ) );
-		add_action( 'wp', array( $this, 'action_wp' ) );
 		add_filter( 'template_include', array( $this, 'filter_template_include' ) );
 		add_filter( 'redirect_canonical', array( $this, 'filter_redirect_canonical' ) );
 		add_filter( 'body_class', array( $this, 'filter_body_class' ) );
@@ -163,23 +162,6 @@ class wp_print_friendly {
 	}
 
 	/**
-	 * Determine if the print page should be visible to the current user
-	 *
-	 * @uses current_user_can, post_password_required
-	 * @global $wp_query, $post
-	 * @return bool
-	 */
-	public function is_protected() {
-		global $post;
-
-		// If the global $post object is not set OR BOTH the current user is NOT an admin AND the post is private
-		$private = ( ! isset( $post ) || ( ! current_user_can( 'read_private_posts' ) && 'private' == $post->post_status ) ) ? true : false;
-
-		// If the password is required OR if the current user does not have the capability to view private posts
-		return post_password_required() || true === $private;
-	}
-
-	/**
 	 * Determine if print template is being requested.
 	 *
 	 * @global $wp_query
@@ -215,41 +197,40 @@ class wp_print_friendly {
 			property_exists( $queried_object, 'taxonomy' ) &&
 			property_exists( $queried_object, 'slug' ) &&
 			( '' !== ( $path = locate_template( array( 'wpf-' . $queried_object->taxonomy . '-' . $queried_object->slug . '.php', 'wpf-' . $queried_object->taxonomy . '.php' ), false ) ) )
-		) {
+		)
 			$template = array(
 				'name' => 'wpf-' . $queried_object->taxonomy,
 				'path' => $path
 			);
-		} elseif (
+		elseif (
 			is_object( $queried_object ) &&
 			property_exists( $queried_object, 'post_type' ) &&
 			property_exists( $queried_object, 'post_name' ) &&
 			( '' !== ( $path = locate_template( array( 'wpf-' . $queried_object->post_type . '-' . $queried_object->post_name . '.php', 'wpf-' . $queried_object->post_type . '.php' ), false ) ) )
-		) {
+		)
 			$template = array(
 				'name' => 'wpf-' . $queried_object->post_type,
 				'path' => $path
 			);
-		} elseif (
+		elseif (
 			is_object( $queried_object ) &&
 			property_exists( $queried_object, 'post_name' ) &&
 			( '' !== ( $path = locate_template( 'wpf-' . $queried_object->post_name . '.php', false ) ) )
-		) {
+		)
 			$template = array(
 				'name' => 'wpf-' . $queried_object->post_name,
 				'path' => $path
 			);
-		} elseif ( '' !== ( $path = locate_template( 'wpf.php', false ) ) ) {
+		elseif ( '' !== ( $path = locate_template( 'wpf.php', false ) ) )
 			$template = array(
 				'name' => 'wpf-default',
 				'path' => $path
 			);
-		} elseif ( file_exists( $pluginpath . '/default-template.php' ) ) {
+		elseif ( file_exists( $pluginpath . '/default-template.php' ) )
 			$template = array(
 				'name' => 'wpf-plugin-default',
 				'path' => $pluginpath . '/default-template.php'
 			);
-		}
 
 		return isset( $template ) ? $template : false;
 	}
@@ -293,33 +274,14 @@ class wp_print_friendly {
 	}
 
 	/**
-	 * Throw a 404 if the print page should not be visible to the user
-	 *
-	 * @action wp
-	 * @global $wp_query
-	 * @uses $this::is_print, $this::is_protected
-	 * @return null
-	 */
-	function action_wp() {
-		global $wp_query;
-
-		if( $this->is_print() && $this->is_protected() ) {
-			$wp_query->set_404();
-			status_header( 404 );
-			nocache_headers();
-		}
-	}
-
-	/**
 	 * Filter template include to return print template if requested.
 	 *
 	 * @param string $template
 	 * @filter template_include
-	 * @uses this::is_protected
 	 * @return string
 	 */
 	public function filter_template_include( $template ) {
-		if ( $this->is_print() && ! $this->is_protected() && ( $print_template = $this->template_chooser() ) )
+		if ( $this->is_print() && ( $print_template = $this->template_chooser() ) )
 			$template = $print_template[ 'path' ];
 
 		return $template;
@@ -388,7 +350,7 @@ class wp_print_friendly {
 	 * Filter the content if automatic inclusion is selected.
 	 *
 	 * @param string $content
-	 * @uses $this::get_options, $post, $this::print_url, $this::is_protected, get_query_var, apply_filters
+	 * @uses $this::get_options, $post, $this::print_url, get_query_var, apply_filters
 	 * @filter the_content
 	 * @return string
 	 */
@@ -396,10 +358,6 @@ class wp_print_friendly {
 		$options = $this->get_options();
 
 		global $post;
-
-		// Do not display the print_url link if the print page is not be accessible to the user
-		if( $this->is_protected() )
-			return $content;
 
 		if ( is_array( $options ) && array_key_exists( 'auto', $options ) && $options[ 'auto' ] == true && in_array( $post->post_type, $options[ 'post_types' ] ) && ! $this->is_print() ) {
 			extract( $options );
