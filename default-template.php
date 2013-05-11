@@ -14,7 +14,7 @@
 				?>
 				<div <?php post_class(); ?>>
 					<h1><?php the_title(); ?></h1>
-					<p>by <?php the_author(); ?> | <?php the_time( 'F j, Y g:i a' ); ?></p>
+					<p>by <?php the_author(); ?> | <?php the_time( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) ); ?></p>
 
 					<?php
 						if( is_attachment() && wp_attachment_is_image() )
