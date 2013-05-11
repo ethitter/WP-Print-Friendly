@@ -4,7 +4,7 @@ Plugin Name: WP Print Friendly
 Plugin URI: http://www.thinkoomph.com/plugins-modules/wp-print-friendly/
 Description: Extends WordPress' template system to support printer-friendly templates. Works with permalink structures to support nice URLs.
 Author: Erick Hitter, Steven K Word & Oomph, Inc.
-Version: 0.5.3
+Version: 0.6
 Author URI: http://www.thinkoomph.com/
 
 This program is free software; you can redistribute it and/or modify
@@ -23,6 +23,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 class wp_print_friendly {
+	/**
+	 * Singleton
+	 */
+	private static $__instance = null;
+
+	/**
+	 * Class variables
+	 */
 	var $query_var = 'print';
 
 	var $ns = 'wp_print_friendly';
@@ -43,12 +51,33 @@ class wp_print_friendly {
 	var $notice_key = 'wpf_admin_notice_dismissed';
 
 	/**
-	 * Register deactivation hook and filter.
+	 * Silence is golden!
+	 */
+	private function __construct() {}
+
+	/**
+	 * Implement singleton
+	 *
+	 * @uses self::setup
+	 * @return self
+	 */
+	public static function get_instance() {
+		if ( ! is_a( self::$__instance, __CLASS__ ) ) {
+			self::$__instance = new self;
+
+			self::$__instance->setup();
+		}
+
+		return self::$__instance;
+	}
+
+	/**
+	 * Register deactivation hook and tie balance of plugin hooks to `plugins_loaded`.
 	 *
 	 * @uses register_deactivation_hook, add_filter
 	 * @return null
 	 */
-	public function __construct() {
+	private function setup() {
 		register_deactivation_hook( __FILE__, array( $this, 'deactivation_hook' ) );
 		add_action( 'plugins_loaded', array( $this, 'action_plugins_loaded' ) );
 	}
@@ -850,23 +879,23 @@ class wp_print_friendly {
 		return $before . $page . $separator . $num_pages . $after;
 	}
 }
-global $wpf;
-$wpf = new wp_print_friendly;
+wp_print_friendly::get_instance();
+
+/**
+ * Alias global variable used to hold instantiated plugin prior to singleton's introduction in version 0.6.
+ */
+$GLOBALS['wpf'] = wp_print_friendly::get_instance();
 
 /**
  * Shortcut to function for generating post's printer-friendly format URL
  *
  * @param int $post_id
  * @param int $page
- * @uses $wpf
+ * @uses wp_print_friendly::get_instance
  * @return string or bool
  */
 function wpf_get_print_url( $post_id = false, $page = false ) {
-	global $wpf;
-	if ( ! is_a( $wpf, 'wp_print_friendly' ) )
-		$wpf = new wp_print_friendly;
-
-	return $wpf->print_url( intval( $post_id ), intval( $page ) );
+	return wp_print_friendly::get_instance()->print_url( intval( $post_id ), intval( $page ) );
 }
 
 /**
@@ -884,6 +913,7 @@ function wpf_get_print_url( $post_id = false, $page = false ) {
  */
 function wpf_the_print_link( $page_link = false, $link_text = 'Print this post', $class = 'print_link', $page_link_separator = ' | ', $page_link_text = 'Print this page', $link_target = 'same' ) {
 	global $post;
+
 	$url = wpf_get_print_url( $post->ID );
 
 	$page_link = (bool)$page_link;
@@ -911,30 +941,21 @@ function wpf_the_print_link( $page_link = false, $link_text = 'Print this post',
  * @param string $before
  * @param string $separator
  * @param string $after
- * @uses $wpf
+ * @uses wp_print_friendly::get_instance
  * @return string or false
  */
 function wpf_the_page_numbers( $post_id = false, $before = 'Page ', $separator = ' of ', $after = '' ) {
-	global $wpf;
-	if ( ! is_a( $wpf, 'wp_print_friendly' ) )
-		$wpf = new wp_print_friendly;
-
-	echo $wpf->page_numbers( intval( $post_id ), $before, $separator, $after );
+	echo wp_print_friendly::get_instance()->page_numbers( intval( $post_id ), $before, $separator, $after );
 }
 
 if ( ! function_exists( 'is_print' ) ) {
 	/**
 	 * Conditional tag indicating if printer-friendly format was requested.
 	 *
-	 * @uses $wpf
+	 * @uses wp_print_friendly::get_instance
 	 * @return bool
 	 */
 	function is_print() {
-		global $wpf;
-		if ( ! is_a( $wpf, 'wp_print_friendly' ) )
-			$wpf = new wp_print_friendly;
-
-		return $wpf->is_print();
+		return wp_print_friendly::get_instance()->is_print();
 	}
 }
-?>
