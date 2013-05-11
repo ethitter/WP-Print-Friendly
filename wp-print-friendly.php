@@ -74,7 +74,8 @@ class wp_print_friendly {
 	/**
 	 * Register deactivation hook and tie balance of plugin hooks to `plugins_loaded`.
 	 *
-	 * @uses register_deactivation_hook, add_filter
+	 * @uses register_deactivation_hook
+	 * @uses add_filter
 	 * @return null
 	 */
 	private function setup() {
@@ -85,7 +86,8 @@ class wp_print_friendly {
 	/**
 	 * Clean up after plugin deactivation.
 	 *
-	 * @uses flush_rewrite_rules, delete_option
+	 * @uses flush_rewrite_rules
+	 * @uses delete_option
 	 * @action register_deactivation_hook
 	 * @return null
 	 */
@@ -99,7 +101,9 @@ class wp_print_friendly {
 	/**
 	 * Register actions and filters.
 	 *
-	 * @uses add_action, add_filter, get_option
+	 * @uses add_action
+	 * @uses add_filter
+	 * @uses get_option
 	 * @action plugins_loaded
 	 * @return null
 	 */
@@ -123,7 +127,11 @@ class wp_print_friendly {
 	/**
 	 * Add print endpoint and rewrite rules for term taxonomy archives
 	 *
-	 * @uses add_rewrite_endpoint, $wp_rewrite, get_taxonomies, add_rewrite_rule, trailingslashit
+	 * @global $wp_rewrite
+	 * @uses add_rewrite_endpoint
+	 * @uses get_taxonomies
+	 * @uses add_rewrite_rule
+	 * @uses trailingslashit
 	 * @action init
 	 * @return null
 	 */
@@ -179,7 +187,8 @@ class wp_print_friendly {
 	/**
 	 * Register plugin option and disable rewrite rule flush warning.
 	 *
-	 * @uses register_setting, update_option
+	 * @uses register_setting
+	 * @uses update_option
 	 * @action admin_init
 	 * @return null
 	 */
@@ -208,7 +217,10 @@ class wp_print_friendly {
 	 * Select appropriate template based on post type and available templates.
 	 * Returns an array with name and path keys for available template or false if no template is found.
 	 *
-	 * @uses get_queried_object, is_home, is_front_page, locate_template
+	 * @uses get_queried_object
+	 * @uses is_home
+	 * @uses is_front_page
+	 * @uses locate_template
 	 * @return array or false
 	 */
 	public function template_chooser() {
@@ -382,8 +394,12 @@ class wp_print_friendly {
 	/**
 	 * Filter the content if automatic inclusion is selected.
 	 *
+	 * @global $post
 	 * @param string $content
-	 * @uses $this::get_options, $post, $this::print_url, get_query_var, apply_filters
+	 * @uses this::get_options
+	 * @uses this::print_url
+	 * @uses get_query_var
+	 * @uses apply_filters
 	 * @filter the_content
 	 * @return string
 	 */
@@ -496,9 +512,30 @@ class wp_print_friendly {
 	/**
 	 * Generate URL for post's printer-friendly format.
 	 *
+	 * @global $post
+	 * @global $wp_rewrite
 	 * @param int $post_id
 	 * @param int $page
-	 * @uses is_view_all, is_home, is_front_page, home_url, $post, get_permalink, is_category, get_category_link, is_tag, get_tag_link, is_date, get_query_var, get_day_link, get_month_link, get_year_link, is_tax, get_queried_object, get_term_link, $wp_rewrite, path_join, trailingslashit, add_query_arg
+	 * @uses is_view_all
+	 * @uses is_home
+	 * @uses is_front_page
+	 * @uses home_url
+	 * @uses get_permalink
+	 * @uses is_category
+	 * @uses get_category_link
+	 * @uses is_tag
+	 * @uses get_tag_link
+	 * @uses is_date
+	 * @uses get_query_var
+	 * @uses get_day_link
+	 * @uses get_month_link
+	 * @uses get_year_link
+	 * @uses is_tax
+	 * @uses get_queried_object
+	 * @uses get_term_link
+	 * @uses path_join
+	 * @uses trailingslashit
+	 * @uses add_query_arg
 	 * @return string or bool
 	 */
 	public function print_url( $post_id = false, $page = false ) {
@@ -588,7 +625,11 @@ class wp_print_friendly {
 	/**
 	 * Render options page.
 	 *
-	 * @uses settings_fields, $this::get_options, _e, checked, esc_attr
+	 * @uses settings_fields
+	 * @uses this::get_options
+	 * @uses _e
+	 * @uses checked
+	 * @uses esc_attr
 	 * @return html
 	 */
 	public function admin_options() {
@@ -702,7 +743,10 @@ class wp_print_friendly {
 	 * Validate options
 	 *
 	 * @param array $options
-	 * @uses $this::get_options, $this::post_types_array, delete_option, sanitize_text_field
+	 * @uses this::get_options
+	 * @uses this::post_types_array
+	 * @uses delete_option
+	 * @uses sanitize_text_field
 	 * @return array
 	 */
 	public function admin_options_validate( $options ) {
@@ -770,7 +814,8 @@ class wp_print_friendly {
 	/**
 	 * Return plugin options array parsed with default options.
 	 *
-	 * @uses wp_parse_args, get_option
+	 * @uses wp_parse_args
+	 * @uses get_option
 	 * @return array
 	 */
 	public function get_options() {
@@ -801,7 +846,11 @@ class wp_print_friendly {
 	/**
 	 * Display admin notice regarding rewrite rules flush.
 	 *
-	 * @uses get_option, _e, __, admin_url, add_query_arg
+	 * @uses get_option
+	 * @uses _e
+	 * @uses __
+	 * @uses admin_url
+	 * @uses add_query_arg
 	 * @action admin_notices
 	 * @return html or null
 	 */
@@ -901,6 +950,7 @@ function wpf_get_print_url( $post_id = false, $page = false ) {
 /**
  * Output link to printer-friendly post format.
  *
+ * @global $post
  * @param string $link_text
  * @param string $class
  * @param int $post_id
@@ -908,7 +958,10 @@ function wpf_get_print_url( $post_id = false, $page = false ) {
  * @param string $page_link_separator
  * @param string $page_link_text
  * @param string $link_target
- * @uses $post, wpf_get_print_url, esc_attr, esc_url, get_query_var
+ * @uses wpf_get_print_url
+ * @uses esc_attr
+ * @uses esc_url
+ * @uses get_query_var
  * @return string or null
  */
 function wpf_the_print_link( $page_link = false, $link_text = 'Print this post', $class = 'print_link', $page_link_separator = ' | ', $page_link_text = 'Print this page', $link_target = 'same' ) {
