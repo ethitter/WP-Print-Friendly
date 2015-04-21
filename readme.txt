@@ -3,8 +3,8 @@ Contributors: ethitter, stevenkword, thinkoomph
 Donate link: http://www.thinkoomph.com/plugins-modules/wp-print-friendly/
 Tags: print, template, printer, printable
 Requires at least: 3.1
-Tested up to: 4.1
-Stable tag: 0.6
+Tested up to: 4.2
+Stable tag: 0.6.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,6 +58,9 @@ This plugin is known to conflict with certain plugins, many pertaining to SEO an
 * **WordPress SEO by Yoast:** This plugin's `Permalink` options, particularly *Redirect attachment URL's to parent post URL* and *Redirect ugly URL's to clean permalinks. (Not recommended in many cases!)*, interfere with WP Print Friendly's ability to display print templates. Both must be disabled, and the site's rewrite rules regenerated (by visiting Options > Permalinks and clicking *Save Changes*), for WP Print Friendly to function.
 
 == Changelog ==
+
+= 0.6.1 =
+* Security update: correct misuse of `add_query_arg()` as identified by Sucuri: https://blog.sucuri.net/2015/04/security-advisory-xss-vulnerability-affecting-multiple-wordpress-plugins.html.
 
 = 0.6 =
 * Revert security hotfixes made in 0.5.3 and address the vulnerabilities in the WordPress way.
@@ -147,6 +150,9 @@ This plugin is known to conflict with certain plugins, many pertaining to SEO an
 * Initial version.
 
 == Upgrade Notice ==
+
+= 0.6.1 =
+Security update: correct misuse of `add_query_arg()` as identified by Sucuri: https://blog.sucuri.net/2015/04/security-advisory-xss-vulnerability-affecting-multiple-wordpress-plugins.html.
 
 = 0.6 =
 Recommended for all users as this release addresses security vulnerabilities related to privately-published and password-protected posts.

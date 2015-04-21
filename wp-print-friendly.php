@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: WP Print Friendly
-Plugin URI: http://www.thinkoomph.com/plugins-modules/wp-print-friendly/
+Plugin URI: http://oomphinc.com/plugins-modules/wp-print-friendly/
 Description: Extends WordPress' template system to support printer-friendly templates. Works with permalink structures to support nice URLs.
 Author: Erick Hitter, Steven K Word, and Oomph, Inc.
-Version: 0.6
-Author URI: http://www.thinkoomph.com/
+Version: 0.6.1
+Author URI: http://oomphinc.com/
 Text Domain: wp_print_friendly
 
 This program is free software; you can redistribute it and/or modify
@@ -879,9 +879,9 @@ class wp_print_friendly {
 		<div id="wpf-rewrite-flush-warning" class="error fade">
 			<p><strong><?php _e( 'WP Print Friendly', 'wp_print_friendly' ); ?></strong></p>
 
-			<p><?php printf( __( 'You must refresh your site\'s permalinks before WP Print Friendly is fully activated. To do so, go to <a href="%s">Permalinks</a> and click the <strong><em>Save Changes</em></strong> button at the bottom of the screen.', 'wp_print_friendly' ), admin_url( 'options-permalink.php' ) ); ?></p>
+			<p><?php printf( __( 'You must refresh your site\'s permalinks before WP Print Friendly is fully activated. To do so, go to <a href="%s">Permalinks</a> and click the <strong><em>Save Changes</em></strong> button at the bottom of the screen.', 'wp_print_friendly' ), esc_url( admin_url( 'options-permalink.php' ) ) ); ?></p>
 
-			<p><?php printf( __( 'When finished, click <a href="%s">here</a> to hide this message.', 'wp_print_friendly' ), admin_url( add_query_arg( $this->notice_key, 1, 'index.php' ) ) ); ?></p>
+			<p><?php printf( __( 'When finished, click <a href="%s">here</a> to hide this message.', 'wp_print_friendly' ), esc_url( admin_url( add_query_arg( $this->notice_key, 1, 'index.php' ) ) ) ); ?></p>
 		</div>
 
 		<?php
