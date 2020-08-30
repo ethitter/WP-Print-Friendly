@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<?php
+// phpcs:ignoreFile -- legacy code in need of refactoring.
+?><!DOCTYPE html>
 <html>
 	<head>
 		<title><?php wp_title( '|', true, 'right' ); bloginfo( 'name' ); ?></title>
