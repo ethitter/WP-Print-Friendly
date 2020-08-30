@@ -1,4 +1,5 @@
 <?php
+// phpcs:ignoreFile -- legacy code in need of refactoring.
 /*
 Plugin Name: WP Print Friendly
 Plugin URI: http://oomphinc.com/plugins-modules/wp-print-friendly/
