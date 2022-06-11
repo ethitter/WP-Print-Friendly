@@ -1,9 +1,9 @@
 # WP Print Friendly #
-**Contributors:** ethitter, stevenkword, thinkoomph  
+**Contributors:** [ethitter](https://profiles.wordpress.org/ethitter/), [stevenkword](https://profiles.wordpress.org/stevenkword/), [thinkoomph](https://profiles.wordpress.org/thinkoomph/)  
 **Donate link:** http://www.thinkoomph.com/plugins-modules/wp-print-friendly/  
 **Tags:** print, template, printer, printable  
 **Requires at least:** 3.1  
-**Tested up to:** 5.9  
+**Tested up to:** 6.0  
 **Stable tag:** 0.6.2  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
