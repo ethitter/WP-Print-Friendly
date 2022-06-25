@@ -1,28 +1,29 @@
 <?php
 // phpcs:ignoreFile -- legacy code in need of refactoring.
-/*
-Plugin Name: WP Print Friendly
-Plugin URI: http://oomphinc.com/plugins-modules/wp-print-friendly/
-Description: Extends WordPress' template system to support printer-friendly templates. Works with permalink structures to support nice URLs.
-Author: Erick Hitter, Steven K Word, and Oomph, Inc.
-Version: 0.6.2
-Author URI: http://oomphinc.com/
-Text Domain: wp_print_friendly
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+/**
+ * Plugin Name: WP Print Friendly
+ * Plugin URI: http://oomphinc.com/plugins-modules/wp-print-friendly/
+ * Description: Extends WordPress' template system to support printer-friendly templates. Works with permalink structures to support nice URLs.
+ * Author: Erick Hitter, Steven K Word, and Oomph, Inc.
+ * Version: 0.6.3
+ * Author URI: http://oomphinc.com/
+ * Text Domain: wp-print-friendly
+ * Domain Path: /languages/
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
 
 class wp_print_friendly {
 	/**
@@ -113,17 +114,23 @@ class wp_print_friendly {
 	 * @return null
 	 */
 	public function action_plugins_loaded() {
+		load_plugin_textdomain(
+			'wp-print-friendly',
+			false,
+			dirname( plugin_basename( __FILE__ ) ) . '/languages/'
+		);
+
 		// Populate default settings, with translation support
 		$this->settings_defaults = array(
 			'auto'            => false,
 			'placement'       => 'below',
 			'post_types'      => array( 'post', 'page' ),
-			'print_text'      => __( 'Print this entry', 'wp_print_friendly' ),
-			'print_text_page' => __( 'Print this page', 'wp_print_friendly' ),
+			'print_text'      => __( 'Print this entry', 'wp-print-friendly' ),
+			'print_text_page' => __( 'Print this page', 'wp-print-friendly' ),
 			'css_class'       => 'print_link',
 			'link_target'     => 'same',
 			'endnotes'        => true,
-			'endnotes_label'  => __( 'Endnotes:', 'wp_print_friendly' ),
+			'endnotes_label'  => __( 'Endnotes:', 'wp-print-friendly' ),
 		);
 
 		// Register plugin's remaining actions and filters
@@ -668,22 +675,22 @@ class wp_print_friendly {
 
 				<table class="form-table">
 					<tr>
-						<th scope="row"><?php _e( 'Automatically add print links based on settings below?', 'wp_print_friendly' ); ?></th>
+						<th scope="row"><?php _e( 'Automatically add print links based on settings below?', 'wp-print-friendly' ); ?></th>
 						<td>
-							<input type="radio" name="<?php echo esc_attr( $this->settings_key ); ?>[auto]" id="auto-true" value="1"<?php checked( $options[ 'auto' ], true, true ); ?> /> <label for="auto-true"><?php _e( 'Yes', 'wp_print_friendly' ); ?></label><br />
-							<input type="radio" name="<?php echo esc_attr( $this->settings_key ); ?>[auto]" id="auto-false" value="0"<?php checked( $options[ 'auto' ], false, true ); ?> /> <label for="auto-false"><?php _e( 'No', 'wp_print_friendly' ); ?></label>
+							<input type="radio" name="<?php echo esc_attr( $this->settings_key ); ?>[auto]" id="auto-true" value="1"<?php checked( $options[ 'auto' ], true, true ); ?> /> <label for="auto-true"><?php _e( 'Yes', 'wp-print-friendly' ); ?></label><br />
+							<input type="radio" name="<?php echo esc_attr( $this->settings_key ); ?>[auto]" id="auto-false" value="0"<?php checked( $options[ 'auto' ], false, true ); ?> /> <label for="auto-false"><?php _e( 'No', 'wp-print-friendly' ); ?></label>
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><?php _e( 'Automatically place link:', 'wp_print_friendly' ); ?></th>
+						<th scope="row"><?php _e( 'Automatically place link:', 'wp-print-friendly' ); ?></th>
 						<td>
-							<input type="radio" name="<?php echo esc_attr( $this->settings_key ); ?>[placement]" id="placement-above" value="above"<?php checked( $options[ 'placement' ], 'above', true ); ?> /> <label for="placement-above"><?php _e( 'Above content', 'wp_print_friendly' ); ?></label><br />
-							<input type="radio" name="<?php echo esc_attr( $this->settings_key ); ?>[placement]" id="placement-below" value="below"<?php checked( $options[ 'placement' ], 'below', true ); ?> /> <label for="placement-below"><?php _e( 'Below content', 'wp_print_friendly' ); ?></label><br />
-							<input type="radio" name="<?php echo esc_attr( $this->settings_key ); ?>[placement]" id="placement-both" value="both"<?php checked( $options[ 'placement' ], 'both', true ); ?> /> <label for="placement-both"><?php _e( 'Above and below content', 'wp_print_friendly' ); ?></label>
+							<input type="radio" name="<?php echo esc_attr( $this->settings_key ); ?>[placement]" id="placement-above" value="above"<?php checked( $options[ 'placement' ], 'above', true ); ?> /> <label for="placement-above"><?php _e( 'Above content', 'wp-print-friendly' ); ?></label><br />
+							<input type="radio" name="<?php echo esc_attr( $this->settings_key ); ?>[placement]" id="placement-below" value="below"<?php checked( $options[ 'placement' ], 'below', true ); ?> /> <label for="placement-below"><?php _e( 'Below content', 'wp-print-friendly' ); ?></label><br />
+							<input type="radio" name="<?php echo esc_attr( $this->settings_key ); ?>[placement]" id="placement-both" value="both"<?php checked( $options[ 'placement' ], 'both', true ); ?> /> <label for="placement-both"><?php _e( 'Above and below content', 'wp-print-friendly' ); ?></label>
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><?php _e( 'Display automatically on:', 'wp_print_friendly' ); ?></th>
+						<th scope="row"><?php _e( 'Display automatically on:', 'wp-print-friendly' ); ?></th>
 						<td>
 							<?php foreach ( $post_types as $post_type ): ?>
 								<input type="checkbox" name="<?php echo esc_attr( $this->settings_key ); ?>[post_types][]" id="pt-<?php echo $post_type->name; ?>" value="<?php echo $post_type->name; ?>"<?php if ( in_array( $post_type->name, $options[ 'post_types' ] ) ) echo ' checked="checked"'; ?> /> <label for="pt-<?php echo $post_type->name; ?>"><?php echo $post_type->labels->name; ?></label><br />
@@ -696,34 +703,34 @@ class wp_print_friendly {
 
 				<table class="form-table">
 					<tr>
-						<th scope="row"><?php _e( 'Text for link to print entire item:', 'wp_print_friendly' ); ?></th>
+						<th scope="row"><?php _e( 'Text for link to print entire item:', 'wp-print-friendly' ); ?></th>
 						<td>
 							<input type="text" name="<?php echo esc_attr( $this->settings_key ); ?>[print_text]" id="print_text" value="<?php echo esc_attr( $options[ 'print_text' ] ); ?>" style="width: 40%;" />
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><?php _e( 'Text for link to print current page:', 'wp_print_friendly' ); ?></th>
+						<th scope="row"><?php _e( 'Text for link to print current page:', 'wp-print-friendly' ); ?></th>
 						<td>
 							<input type="text" name="<?php echo esc_attr( $this->settings_key ); ?>[print_text_page]" id="print_text_page" value="<?php echo esc_attr( $options[ 'print_text_page' ] ); ?>" style="width: 40%;" />
 
-							<p class="description"><?php _e( 'If viewing a multipage post (set by using the &lt;!--nextpage--&gt; tag), the text above is used for a link to print just the current page.', 'wp_print_friendly' ); ?></p>
-							<p class="description"><?php _e( '<strong>To hide this link,</strong> clear the field\'s contents.', 'wp_print_friendly' ); ?></p>
+							<p class="description"><?php _e( 'If viewing a multipage post (set by using the &lt;!--nextpage--&gt; tag), the text above is used for a link to print just the current page.', 'wp-print-friendly' ); ?></p>
+							<p class="description"><?php _e( '<strong>To hide this link,</strong> clear the field\'s contents.', 'wp-print-friendly' ); ?></p>
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><?php _e( 'CSS for print links:', 'wp_print_friendly' ); ?></th>
+						<th scope="row"><?php _e( 'CSS for print links:', 'wp-print-friendly' ); ?></th>
 						<td>
 							<input type="text" name="<?php echo esc_attr( $this->settings_key ); ?>[css_class]" id="css_class" value="<?php echo esc_attr( $options[ 'css_class' ] ); ?>" style="width: 40%;" />
 
-							<p class="description"><?php _e( 'For page-specific print links, a second class, created by appending <strong>_cur</strong> to the above text, is added to each link.', 'wp_print_friendly' ); ?></p>
-							<p class="description"><?php _e( 'Be aware that Internet Explorer will only interpret the first two CSS classes, so if multiple classes are entered above, the page-specific class may not be available in IE.', 'wp_print_friendly' ); ?></p>
+							<p class="description"><?php _e( 'For page-specific print links, a second class, created by appending <strong>_cur</strong> to the above text, is added to each link.', 'wp-print-friendly' ); ?></p>
+							<p class="description"><?php _e( 'Be aware that Internet Explorer will only interpret the first two CSS classes, so if multiple classes are entered above, the page-specific class may not be available in IE.', 'wp-print-friendly' ); ?></p>
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><?php _e( 'Open print-friendly views:', 'wp_print_friendly' ); ?></th>
+						<th scope="row"><?php _e( 'Open print-friendly views:', 'wp-print-friendly' ); ?></th>
 						<td>
-							<input type="radio" name="<?php echo esc_attr( $this->settings_key ); ?>[link_target]" id="target-same" value="same"<?php checked( $options[ 'link_target' ], 'same', true ); ?> /> <label for="target-same"><?php _e( 'In the same window', 'wp_print_friendly' ); ?></label><br />
-							<input type="radio" name="<?php echo esc_attr( $this->settings_key ); ?>[link_target]" id="target-new" value="new"<?php checked( $options[ 'link_target' ], 'new', true ); ?> /> <label for="target-new"><?php _e( 'In a new window', 'wp_print_friendly' ); ?></label>
+							<input type="radio" name="<?php echo esc_attr( $this->settings_key ); ?>[link_target]" id="target-same" value="same"<?php checked( $options[ 'link_target' ], 'same', true ); ?> /> <label for="target-same"><?php _e( 'In the same window', 'wp-print-friendly' ); ?></label><br />
+							<input type="radio" name="<?php echo esc_attr( $this->settings_key ); ?>[link_target]" id="target-new" value="new"<?php checked( $options[ 'link_target' ], 'new', true ); ?> /> <label for="target-new"><?php _e( 'In a new window', 'wp-print-friendly' ); ?></label>
 						</td>
 					</tr>
 				</table>
@@ -732,19 +739,19 @@ class wp_print_friendly {
 
 				<table class="form-table">
 					<tr>
-						<th scope="row"><?php _e( 'Include endnotes for links found in content?', 'wp_print_friendly' ); ?></th>
+						<th scope="row"><?php _e( 'Include endnotes for links found in content?', 'wp-print-friendly' ); ?></th>
 						<td>
-							<input type="checkbox" name="<?php echo esc_attr( $this->settings_key ); ?>[endnotes]" id="endnotes" value="1"<?php checked( $options[ 'endnotes' ], true, true ); ?> /> <label for="endnotes"><?php _e( 'Yes', 'wp_print_friendly' ); ?></label>
+							<input type="checkbox" name="<?php echo esc_attr( $this->settings_key ); ?>[endnotes]" id="endnotes" value="1"<?php checked( $options[ 'endnotes' ], true, true ); ?> /> <label for="endnotes"><?php _e( 'Yes', 'wp-print-friendly' ); ?></label>
 
-							<p class="description"><?php _e( 'If enabled, content is automatically scanned for links and an endnote is added for each link found. This can be helpful for users if your content includes many links.', 'wp_print_friendly' ); ?></p>
+							<p class="description"><?php _e( 'If enabled, content is automatically scanned for links and an endnote is added for each link found. This can be helpful for users if your content includes many links.', 'wp-print-friendly' ); ?></p>
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><label for="endnotes-label"><?php _e( 'Endnotes heading:', 'wp_print_friendly' ); ?></label></th>
+						<th scope="row"><label for="endnotes-label"><?php _e( 'Endnotes heading:', 'wp-print-friendly' ); ?></label></th>
 						<td>
 							<input type="text" name="<?php echo esc_attr( $this->settings_key ); ?>[endnotes_label]" class="regular-text code" id="endnotes-label" value="<?php echo esc_attr( $options[ 'endnotes_label' ] ); ?>" />
 
-							<p class="description"><?php _e( 'If endnotes are enabled, the text entered above will be output above the list of links.', 'wp_print_friendly' ); ?></p>
+							<p class="description"><?php _e( 'If endnotes are enabled, the text entered above will be output above the list of links.', 'wp-print-friendly' ); ?></p>
 						</td>
 					</tr>
 				</table>
@@ -878,11 +885,11 @@ class wp_print_friendly {
 		?>
 
 		<div id="wpf-rewrite-flush-warning" class="error fade">
-			<p><strong><?php _e( 'WP Print Friendly', 'wp_print_friendly' ); ?></strong></p>
+			<p><strong><?php _e( 'WP Print Friendly', 'wp-print-friendly' ); ?></strong></p>
 
-			<p><?php printf( __( 'You must refresh your site\'s permalinks before WP Print Friendly is fully activated. To do so, go to <a href="%s">Permalinks</a> and click the <strong><em>Save Changes</em></strong> button at the bottom of the screen.', 'wp_print_friendly' ), esc_url( admin_url( 'options-permalink.php' ) ) ); ?></p>
+			<p><?php printf( __( 'You must refresh your site\'s permalinks before WP Print Friendly is fully activated. To do so, go to <a href="%s">Permalinks</a> and click the <strong><em>Save Changes</em></strong> button at the bottom of the screen.', 'wp-print-friendly' ), esc_url( admin_url( 'options-permalink.php' ) ) ); ?></p>
 
-			<p><?php printf( __( 'When finished, click <a href="%s">here</a> to hide this message.', 'wp_print_friendly' ), esc_url( admin_url( add_query_arg( $this->notice_key, 1, 'index.php' ) ) ) ); ?></p>
+			<p><?php printf( __( 'When finished, click <a href="%s">here</a> to hide this message.', 'wp-print-friendly' ), esc_url( admin_url( add_query_arg( $this->notice_key, 1, 'index.php' ) ) ) ); ?></p>
 		</div>
 
 		<?php

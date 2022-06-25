@@ -30,7 +30,18 @@
 							wpf_the_page_numbers( false, '<p class="page_numbers">Page ', ' of ', '</p><!-- .page_numbers -->' );
 					?>
 
-					<p class="wpf-source"><strong>Source URL:</strong> <?php the_permalink(); ?></p>
+					<p class="wpf-source">
+						<?php
+							printf(
+								/* translators: 1. Post permalink. */
+								__(
+									'<strong>Source URL:</strong> %1$s',
+									'wp-print-friendly'
+								),
+								get_the_permalink()
+							);
+						?>
+					</p>
 
 					<hr class="wpf-divider" />
 				</div>
@@ -39,7 +50,19 @@
 		endif;
 	?>
 
-		<p class="copyright">Copyright &copy;<?php echo date( 'Y' ); ?> <strong><?php bloginfo( 'name' ); ?></strong> unless otherwise noted.</p>
+		<p class="copyright">
+			<?php
+				printf(
+					/* translators: 1. Copyright year, 2. Site name. */
+					__(
+						'Copyright &copy;%1$d %2$s unless otherwise noted.',
+						'wp-print-friendly'
+					),
+					date( 'Y' ),
+					get_bloginfo( 'name' )
+				);
+			?>
+		</p>
 
 	</body>
 </html>

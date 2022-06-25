@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the WP Print Friendly package.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Print Friendly 0.6.2\n"
+"Project-Id-Version: WP Print Friendly 0.6.3\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/wp-print-friendly\n"
-"POT-Creation-Date: 2022-06-11 18:14:57+00:00\n"
+"POT-Creation-Date: 2022-06-25 21:01:31+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,113 +25,123 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
-#: wp-print-friendly.php:121
+#: default-template.php:37
+#. translators: 1. Post permalink.
+msgid "<strong>Source URL:</strong> %1$s"
+msgstr ""
+
+#: default-template.php:57
+#. translators: 1. Copyright year, 2. Site name.
+msgid "Copyright &copy;%1$d %2$s unless otherwise noted."
+msgstr ""
+
+#: wp-print-friendly.php:128
 msgid "Print this entry"
 msgstr ""
 
-#: wp-print-friendly.php:122
+#: wp-print-friendly.php:129
 msgid "Print this page"
 msgstr ""
 
-#: wp-print-friendly.php:126
+#: wp-print-friendly.php:133
 msgid "Endnotes:"
 msgstr ""
 
-#: wp-print-friendly.php:671
+#: wp-print-friendly.php:678
 msgid "Automatically add print links based on settings below?"
 msgstr ""
 
-#: wp-print-friendly.php:673 wp-print-friendly.php:737
+#: wp-print-friendly.php:680 wp-print-friendly.php:744
 msgid "Yes"
 msgstr ""
 
-#: wp-print-friendly.php:674
+#: wp-print-friendly.php:681
 msgid "No"
 msgstr ""
 
-#: wp-print-friendly.php:678
+#: wp-print-friendly.php:685
 msgid "Automatically place link:"
 msgstr ""
 
-#: wp-print-friendly.php:680
+#: wp-print-friendly.php:687
 msgid "Above content"
 msgstr ""
 
-#: wp-print-friendly.php:681
+#: wp-print-friendly.php:688
 msgid "Below content"
 msgstr ""
 
-#: wp-print-friendly.php:682
+#: wp-print-friendly.php:689
 msgid "Above and below content"
 msgstr ""
 
-#: wp-print-friendly.php:686
+#: wp-print-friendly.php:693
 msgid "Display automatically on:"
 msgstr ""
 
-#: wp-print-friendly.php:699
+#: wp-print-friendly.php:706
 msgid "Text for link to print entire item:"
 msgstr ""
 
-#: wp-print-friendly.php:705
+#: wp-print-friendly.php:712
 msgid "Text for link to print current page:"
 msgstr ""
 
-#: wp-print-friendly.php:709
+#: wp-print-friendly.php:716
 msgid ""
 "If viewing a multipage post (set by using the &lt;!--nextpage--&gt; tag), "
 "the text above is used for a link to print just the current page."
 msgstr ""
 
-#: wp-print-friendly.php:710
+#: wp-print-friendly.php:717
 msgid "<strong>To hide this link,</strong> clear the field's contents."
 msgstr ""
 
-#: wp-print-friendly.php:714
+#: wp-print-friendly.php:721
 msgid "CSS for print links:"
 msgstr ""
 
-#: wp-print-friendly.php:718
+#: wp-print-friendly.php:725
 msgid ""
 "For page-specific print links, a second class, created by appending "
 "<strong>_cur</strong> to the above text, is added to each link."
 msgstr ""
 
-#: wp-print-friendly.php:719
+#: wp-print-friendly.php:726
 msgid ""
 "Be aware that Internet Explorer will only interpret the first two CSS "
 "classes, so if multiple classes are entered above, the page-specific class "
 "may not be available in IE."
 msgstr ""
 
-#: wp-print-friendly.php:723
+#: wp-print-friendly.php:730
 msgid "Open print-friendly views:"
 msgstr ""
 
-#: wp-print-friendly.php:725
+#: wp-print-friendly.php:732
 msgid "In the same window"
 msgstr ""
 
-#: wp-print-friendly.php:726
+#: wp-print-friendly.php:733
 msgid "In a new window"
 msgstr ""
 
-#: wp-print-friendly.php:735
+#: wp-print-friendly.php:742
 msgid "Include endnotes for links found in content?"
 msgstr ""
 
-#: wp-print-friendly.php:739
+#: wp-print-friendly.php:746
 msgid ""
 "If enabled, content is automatically scanned for links and an endnote is "
 "added for each link found. This can be helpful for users if your content "
 "includes many links."
 msgstr ""
 
-#: wp-print-friendly.php:743
+#: wp-print-friendly.php:750
 msgid "Endnotes heading:"
 msgstr ""
 
-#: wp-print-friendly.php:747
+#: wp-print-friendly.php:754
 msgid ""
 "If endnotes are enabled, the text entered above will be output above the "
 "list of links."
@@ -141,14 +151,14 @@ msgstr ""
 msgid "WP Print Friendly"
 msgstr ""
 
-#: wp-print-friendly.php:883
+#: wp-print-friendly.php:890
 msgid ""
 "You must refresh your site's permalinks before WP Print Friendly is fully "
 "activated. To do so, go to <a href=\"%s\">Permalinks</a> and click the "
 "<strong><em>Save Changes</em></strong> button at the bottom of the screen."
 msgstr ""
 
-#: wp-print-friendly.php:885
+#: wp-print-friendly.php:892
 msgid "When finished, click <a href=\"%s\">here</a> to hide this message."
 msgstr ""
 

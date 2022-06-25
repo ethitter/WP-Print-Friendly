@@ -9,7 +9,7 @@ module.exports = function( grunt ) {
 
 		addtextdomain: {
 			options: {
-				textdomain: 'wp_print_friendly',
+				textdomain: 'wp-print-friendly',
 			},
 			update_all_domains: {
 				options: {
