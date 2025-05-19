@@ -85,7 +85,7 @@ class wp_print_friendly {
 	 */
 	private function setup() {
 		register_deactivation_hook( __FILE__, array( $this, 'deactivation_hook' ) );
-		add_action( 'plugins_loaded', array( $this, 'action_plugins_loaded' ) );
+		add_action( 'init', array( $this, 'action_plugins_loaded' ) );
 	}
 
 	/**
