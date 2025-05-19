@@ -3,7 +3,7 @@ Contributors: ethitter, stevenkword, thinkoomph
 Donate link: http://www.thinkoomph.com/plugins-modules/wp-print-friendly/
 Tags: print, template, printer, printable
 Requires at least: 3.1
-Tested up to: 6.0
+Tested up to: 6.8
 Stable tag: 0.6.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
