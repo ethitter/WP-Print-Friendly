@@ -4,7 +4,7 @@ Donate link: http://www.thinkoomph.com/plugins-modules/wp-print-friendly/
 Tags: print, template, printer, printable
 Requires at least: 3.1
 Tested up to: 6.8
-Stable tag: 0.6.3
+Stable tag: 0.6.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,6 +58,9 @@ This plugin is known to conflict with certain plugins, many pertaining to SEO an
 * **WordPress SEO by Yoast:** This plugin's `Permalink` options, particularly *Redirect attachment URL's to parent post URL* and *Redirect ugly URL's to clean permalinks. (Not recommended in many cases!)*, interfere with WP Print Friendly's ability to display print templates. Both must be disabled, and the site's rewrite rules regenerated (by visiting Options > Permalinks and clicking *Save Changes*), for WP Print Friendly to function.
 
 == Changelog ==
+
+= 0.6.4 =
+* Fix translation support.
 
 = 0.6.3 =
 * Fix translation support.
@@ -156,6 +159,9 @@ This plugin is known to conflict with certain plugins, many pertaining to SEO an
 * Initial version.
 
 == Upgrade Notice ==
+
+= 0.6.4 =
+Fixes translation support.
 
 = 0.6.3 =
 Fixes translation support.
